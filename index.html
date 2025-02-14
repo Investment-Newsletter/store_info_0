@@ -24,8 +24,77 @@
     <button onclick="setNumber()">Set Number</button>
 
     <script>
-        const contractAddress = "YOUR_CONTRACT_ADDRESS"; // Replace with actual contract address
-        const abi = [ /* Paste ABI from Remix */ ];
+        const contractAddress = "0x561Ece08750B78772338628678e2Ab9F2B00308F"; // Replace with actual contract address
+        const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "newNumber",
+				"type": "int256"
+			}
+		],
+		"name": "Set_Number",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "newOutput",
+				"type": "string"
+			}
+		],
+		"name": "Set_Word",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "newOutput",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "newNumber",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "Number",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Word",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
 
         async function connectWallet() {
             if (window.ethereum) {
