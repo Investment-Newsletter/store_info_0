@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreInfo dApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+    <h1>StoreInfo Web3 dApp</h1>
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <p id="wallet-status">Not connected</p>
+
+    <h2>Stored Word:</h2>
+    <p id="output">Loading...</p>
+    
+    <input type="text" id="newOutput" placeholder="Enter new word">
+    <button onclick="setWord()">Set Word</button>
+
+    <h2>Stored Number:</h2>
+    <p id="number">Loading...</p>
+
+    <input type="number" id="newNumber" placeholder="Enter new number">
+    <button onclick="setNumber()">Set Number</button>
+
+    <script>
+        const contractAddress = "YOUR_CONTRACT_ADDRESS"; // Replace with actual contract address
+        const abi = [ /* Paste ABI from Remix */ ];
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                await window.ethereum.request({ method: "eth_requestAccounts" });
+                document.getElementById("wallet-status").innerText = "Wallet connected";
+            } else {
+                alert("Please install MetaMask");
+            }
+        }
+
+        async function getValues() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const contract = new ethers.Contract(contractAddress, abi, provider);
+            document.getElementById("output").innerText = await contract.output();
+            document.getElementById("number").innerText = await contract.number();
+        }
+
+        async function setWord() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(contractAddress, abi, signer);
+
+            const newOutput = document.getElementById("newOutput").value;
+            const tx = await contract.Set_Word(newOutput);
+            await tx.wait();
+            alert("Word updated!");
+            getValues();
+        }
+
+        async function setNumber() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(contractAddress, abi, signer);
+
+            const newNumber = document.getElementById("newNumber").value;
+            const tx = await contract.Set_Number(newNumber);
+            await tx.wait();
+            alert("Number updated!");
+            getValues();
+        }
+
+        window.onload = getValues;
+    </script>
+</body>
+</html>
